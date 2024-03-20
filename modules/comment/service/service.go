@@ -35,7 +35,7 @@ gRPC TODO:
  3. Pack the array into correct format.
 */
 func (s *service) ListComment(ctx context.Context, req *pb.ListCommentRequest) (*pb.ListCommentResponse, error) {
-	comments, err := s.commentDAO.ListByVideoID(ctx, req.VideoId, int(req.Limit), int(req.Offset))
+	comments, err := s.commentDAO.ListByVideoID(ctx, req.GetVideoId(), int(req.GetLimit()), int(req.GetOffset()))
 	if err != nil {
 		return nil, err
 	}
@@ -43,14 +43,7 @@ func (s *service) ListComment(ctx context.Context, req *pb.ListCommentRequest) (
 	commentRes := make([]*pb.CommentInfo, 0)
 
 	for _, comment := range comments {
-		commentRes = append(commentRes, &pb.CommentInfo{
-			Id:        comment.ToProto().Id,
-			VideoId:   comment.ToProto().VideoId,
-			Content:   comment.ToProto().Content,
-			CreatedAt: comment.ToProto().CreatedAt,
-			UpdatedAt: comment.ToProto().UpdatedAt,
-		})
-
+		commentRes = append(commentRes, comment.ToProto())
 	}
 
 	return &pb.ListCommentResponse{
@@ -69,21 +62,21 @@ gRPC TODO:
 */
 func (s *service) CreateComment(ctx context.Context, req *pb.CreateCommentRequest) (*pb.CreateCommentResponse, error) {
 	_, err := s.videoClient.GetVideo(ctx, &videopb.GetVideoRequest{
-		Id: req.VideoId,
+		Id: req.GetVideoId(),
 	})
 	if err != nil {
 		return nil, err
 	}
 	comment := &dao.Comment{
-		VideoID: req.VideoId,
-		Content: req.Content,
+		VideoID: req.GetVideoId(),
+		Content: req.GetContent(),
 	}
-	id, err := s.commentDAO.Create(ctx, comment)
+	commentID, err := s.commentDAO.Create(ctx, comment)
 	if err != nil {
 		return nil, err
 	}
 	return &pb.CreateCommentResponse{
-		Id: id.String(),
+		Id: commentID.String(),
 	}, nil
 }
 
@@ -101,7 +94,7 @@ func (s *service) UpdateComment(ctx context.Context, req *pb.UpdateCommentReques
 	}
 	comment := &dao.Comment{
 		ID:      commentID,
-		Content: req.Content,
+		Content: req.GetContent(),
 	}
 	err = s.commentDAO.Update(ctx, comment)
 	if err != nil {
