@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 
 	"github.com/NTHU-LSALAB/NTHU-Distributed-System/modules/comment/dao"
 	"github.com/NTHU-LSALAB/NTHU-Distributed-System/modules/comment/pb"
@@ -98,7 +99,9 @@ func (s *service) UpdateComment(ctx context.Context, req *pb.UpdateCommentReques
 	}
 	err = s.commentDAO.Update(ctx, comment)
 	if err != nil {
-		return nil, err
+		if errors.Is(err, dao.ErrCommentNotFound) {
+			return nil, ErrCommentNotFound
+		}
 	}
 	return &pb.UpdateCommentResponse{
 		Comment: comment.ToProto(),
@@ -117,7 +120,9 @@ func (s *service) DeleteComment(ctx context.Context, req *pb.DeleteCommentReques
 	}
 	err = s.commentDAO.Delete(ctx, commentID)
 	if err != nil {
-		return nil, err
+		if errors.Is(err, dao.ErrCommentNotFound) {
+			return nil, ErrCommentNotFound
+		}
 	}
 	return &pb.DeleteCommentResponse{}, nil
 }
@@ -128,7 +133,7 @@ gRPC TODO:
 2. Return the response.
 */
 func (s *service) DeleteCommentByVideoID(ctx context.Context, req *pb.DeleteCommentByVideoIDRequest) (*pb.DeleteCommentByVideoIDResponse, error) {
-	err := s.commentDAO.DeleteByVideoID(ctx, req.VideoId)
+	err := s.commentDAO.DeleteByVideoID(ctx, req.GetVideoId())
 	if err != nil {
 		return nil, err
 	}
