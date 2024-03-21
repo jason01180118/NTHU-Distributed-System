@@ -41,7 +41,7 @@ func (s *service) ListComment(ctx context.Context, req *pb.ListCommentRequest) (
 		return nil, err
 	}
 
-	commentRes := make([]*pb.CommentInfo, 0)
+	commentRes := make([]*pb.CommentInfo, 0, len(comments))
 
 	for _, comment := range comments {
 		commentRes = append(commentRes, comment.ToProto())
@@ -102,6 +102,7 @@ func (s *service) UpdateComment(ctx context.Context, req *pb.UpdateCommentReques
 		if errors.Is(err, dao.ErrCommentNotFound) {
 			return nil, ErrCommentNotFound
 		}
+		return nil, err
 	}
 	return &pb.UpdateCommentResponse{
 		Comment: comment.ToProto(),
@@ -123,6 +124,7 @@ func (s *service) DeleteComment(ctx context.Context, req *pb.DeleteCommentReques
 		if errors.Is(err, dao.ErrCommentNotFound) {
 			return nil, ErrCommentNotFound
 		}
+		return nil, err
 	}
 	return &pb.DeleteCommentResponse{}, nil
 }

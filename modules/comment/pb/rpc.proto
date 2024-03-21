@@ -18,7 +18,7 @@ service Comment {
 	rpc ListComment(ListCommentRequest) returns (ListCommentResponse) {
 		option (google.api.http) = {
 			get: "/v1/comments/{video_id}"
-			response_body:"*"
+			response_body: "*"
 		};
 	}
 
@@ -26,7 +26,7 @@ service Comment {
 		option (google.api.http) = {
 			post: "/v1/comments"
 			body: "*"
-			response_body:"id"
+			response_body: "*"
 		};
 	}
 
@@ -34,14 +34,14 @@ service Comment {
 		option (google.api.http) = {
 			put: "/v1/comments/{id}"
 			body: "*"
-			response_body:"comment"
+			response_body: "comment"
 		};
 	}
 
 	rpc DeleteComment(DeleteCommentRequest) returns (DeleteCommentResponse) {
 		option (google.api.http) = {
 			delete: "/v1/comments/{id}"
-			response_body:"*"
+			response_body: "*"
 		};
 	}
 
