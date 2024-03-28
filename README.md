@@ -1,5 +1,15 @@
 # NTHU-Distributed-System
 
+## 測試截圖
+
+![image](https://github.com/jason01180118/NTHU-Distributed-System/assets/73685101/7e6403b8-b638-4207-bf8b-0632dee7157e)
+![image](https://github.com/jason01180118/NTHU-Distributed-System/assets/73685101/868af428-20f1-4643-b985-1f4047a8c3ea)
+![image](https://github.com/jason01180118/NTHU-Distributed-System/assets/73685101/8f2180d4-35e1-4b0a-be34-c6f5952ac85c)
+![image](https://github.com/jason01180118/NTHU-Distributed-System/assets/73685101/9e43ec67-931a-449f-a851-17b7edf2dab3)
+![image](https://github.com/jason01180118/NTHU-Distributed-System/assets/73685101/99aee923-242f-4c2a-89a4-fb630bc4f390)
+![image](https://github.com/jason01180118/NTHU-Distributed-System/assets/73685101/cbc37e89-f313-49f0-a3a4-08d8164a77fe)
+
+
 The repository includes microservices for the NTHU Distributed System course lab. The goal of this project is to **introduce a production, realworld microservices backend mono-repo architecture** for teaching purpose.
 
 Before going through the following parts, make sure your Docker is running since we are generating/testing/building code inside a Docker container to prevent dependencies from conflicting/missing on your host machine.
