@@ -23,12 +23,12 @@ x-common-build: &common-build
   environment:
     <<: *common-env
   volumes:
-  - .:/src
-  - ~/go/pkg/mod/cache:/go/pkg/mod/cache
+    - .:/src
+    - ~/go/pkg/mod/cache:/go/pkg/mod/cache
 
 services:
   mongo:
-    image: mongo:5
+    image: mongo:4
 
   postgres:
     image: postgres:14-alpine
@@ -74,8 +74,8 @@ services:
   generate:
     <<: *common-build
     command:
-    - make
-    - generate
+      - make
+      - generate
 
   lint:
     image: golangci/golangci-lint:v1.44.2
@@ -83,26 +83,26 @@ services:
     environment:
       GOLANGCI_LINT_CACHE: /src/.cache/golangci-lint-cache
     volumes:
-    - .:/src
+      - .:/src
     command:
-    - make
-    - lint
+      - make
+      - lint
 
   test:
     <<: *common-build
     command:
-    - make
-    - test
+      - make
+      - test
     depends_on:
-    - mongo
-    - redis
-    - postgres
+      - mongo
+      - redis
+      - postgres
 
   build:
     <<: *common-build
     command:
-    - make
-    - build
+      - make
+      - build
 
   image:
     image: nthu-distributed-system:latest
@@ -119,13 +119,13 @@ services:
       METER_NAME: video.api
       METER_HISTOGRAM_BOUNDARIES: "10,100,200,500,1000"
     command:
-    - /cmd
-    - video
-    - api
+      - /cmd
+      - video
+      - api
     depends_on:
-    - mongo
-    - redis
-    - kafka
+      - mongo
+      - redis
+      - kafka
 
   video-gateway:
     image: nthu-distributed-system:latest
@@ -133,23 +133,23 @@ services:
       <<: *common-env
       GRPC_SERVER_ADDR: video-api:8081
     command:
-    - /cmd
-    - video
-    - gateway
+      - /cmd
+      - video
+      - gateway
     ports:
-    - 10080:8080
+      - 10080:8080
 
   video-stream:
     image: nthu-distributed-system:latest
     environment:
       <<: *common-env
     command:
-    - /cmd
-    - video
-    - stream
+      - /cmd
+      - video
+      - stream
     depends_on:
-    - mongo
-    - kafka
+      - mongo
+      - kafka
 
   comment-api:
     image: nthu-distributed-system:latest
@@ -159,12 +159,12 @@ services:
       METER_NAME: comment.api
       METER_HISTOGRAM_BOUNDARIES: "10,100,200,500,1000"
     command:
-    - /cmd
-    - comment
-    - api
+      - /cmd
+      - comment
+      - api
     depends_on:
-    - postgres
-    - redis
+      - postgres
+      - redis
 
   comment-gateway:
     image: nthu-distributed-system:latest
@@ -172,11 +172,11 @@ services:
       <<: *common-env
       GRPC_SERVER_ADDR: comment-api:8081
     command:
-    - /cmd
-    - comment
-    - gateway
+      - /cmd
+      - comment
+      - gateway
     ports:
-    - 10081:8080
+      - 10081:8080
 
   comment-migration:
     image: nthu-distributed-system:latest
@@ -184,8 +184,8 @@ services:
       MIGRATION_SOURCE: file:///static/modules/comment/migration
       MIGRATION_URL: postgres://postgres@postgres:5432/postgres?sslmode=disable
     command:
-    - /cmd
-    - comment
-    - migration
+      - /cmd
+      - comment
+      - migration
     depends_on:
-    - postgres
+      - postgres
