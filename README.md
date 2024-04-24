@@ -1,6 +1,7 @@
 # 結果截圖
 
-![image](https://github.com/jason01180118/NTHU-Distributed-System/assets/73685101/86a774ee-4fc1-4b6a-ab31-330d449e376e)
+![image](https://github.com/jason01180118/NTHU-Distributed-System/assets/73685101/5d7956a3-6ce5-40af-bc52-5869791afb95)
+
 
 
 # NTHU-Distributed-System
